@@ -20,3 +20,20 @@ injuries
 products <- vroom::vroom("neiss/products.tsv")
 population <- vroom::vroom("neiss/population.tsv")
 
+
+# Data exploration
+selected <- injuries %>% dplyr::filter(prod_code == 649)
+nrow(selected)
+
+selected %>% dplyr::count(location, wt = weight, sort = TRUE)
+selected %>% dplyr::count(body_part, wt = weight ,sort = TRUE)
+selected %>% dplyr::count(diag, wt = weight, sort = TRUE)
+
+summary <- selected %>% 
+  dplyr::count(age, sex, wt = weight)
+
+summary %>% 
+  ggplot2::ggplot(mapping = aes(x = age, y = n, color = sex)) +
+  ggplot2::geom_line() +
+  ggplot2::labs(y = "Estimated number of injuries")
+
