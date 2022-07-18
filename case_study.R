@@ -37,3 +37,18 @@ summary %>%
   ggplot2::geom_line() +
   ggplot2::labs(y = "Estimated number of injuries")
 
+selected %>% 
+  dplyr::count(age, sex, wt = weight) %>% 
+  dplyr::left_join(population, by = c("age", "sex")) %>% 
+  dplyr::mutate(rate = n / population * 10000) -> summary
+
+
+summary %>% 
+  ggplot2::ggplot(mapping = aes(x = age, y = rate, color = sex)) +
+  ggplot2::geom_line(na.rm = TRUE) +
+  ggplot2::labs(y = "Injuries per 10,000 people")
+
+
+
+
+
