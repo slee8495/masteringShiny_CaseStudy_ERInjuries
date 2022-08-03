@@ -54,6 +54,8 @@ summary %>%
 ############################################### Shiny ################################################
 ######################################################################################################
 
+########################################## Proto Type ################################################
+
 prod_codes <- setNames(products$prod_code, products$title)
 
 
@@ -102,6 +104,30 @@ server <- function(input, output, session){
 }
 
 
+shinyApp(ui = ui, server = server)
 
+
+########################################## Polish Tables ################################################
+
+save(injuries, file = "C:/Users/sanle/OneDrive/R/Work/My Libraries/mylibraries/example_data/injuries.rds")
+
+# How to load 
+load("name.rds")
+
+injuries %>% 
+  dplyr::mutate(diag = forcats::fct_lump(forcats::fct_infreq(diag), n = 5)) -> a
+
+
+unique(injuries$diag)
+unique(a$diag)
+injuries %>% 
+  dplyr::group_by(diag) %>% 
+  dplyr::count() %>% 
+  dplyr::arrange(desc(n))
+
+a %>% 
+  dplyr::group_by(diag) %>% 
+  dplyr::count() %>% 
+  dplyr::arrange(desc(n))
 
 
