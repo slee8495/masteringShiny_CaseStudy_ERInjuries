@@ -115,19 +115,6 @@ save(injuries, file = "C:/Users/sanle/OneDrive/R/Work/My Libraries/mylibraries/e
 load("name.rds")
 
 injuries %>% 
-  dplyr::mutate(diag = forcats::fct_lump(forcats::fct_infreq(diag), n = 5)) -> a
-
-
-unique(injuries$diag)
-unique(a$diag)
-injuries %>% 
+  dplyr::mutate(diag = forcats::fct_lump(forcats::fct_infreq(diag), n = 5)) %>% 
   dplyr::group_by(diag) %>% 
-  dplyr::count() %>% 
-  dplyr::arrange(desc(n))
-
-a %>% 
-  dplyr::group_by(diag) %>% 
-  dplyr::count() %>% 
-  dplyr::arrange(desc(n))
-
-
+  dplyr::summarise(n = as.integer(sum(weight)))
